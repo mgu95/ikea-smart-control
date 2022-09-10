@@ -1,6 +1,7 @@
 package pl.mgu95.ikeasmartcontrol.controllers;
 
 import nl.stijngroenen.tradfri.device.Device;
+import nl.stijngroenen.tradfri.device.DeviceInfo;
 import nl.stijngroenen.tradfri.device.Gateway;
 import nl.stijngroenen.tradfri.util.Credentials;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-@SessionAttributes({"ip", "identity", "key"})
+@SessionAttributes({"ip", "identity", "key", "devices"})
 public class HomeController {
 
     private Gateway gateway;
@@ -25,9 +26,6 @@ public class HomeController {
             Credentials credentials = new Credentials((String) modelMap.get("identity"), (String) modelMap.get("key"));
             gateway.connect(credentials);
             devices = gateway.getDevices();
-            for (Device device : devices) {
-                System.out.println("name = " + device.getName() + ", type = " + device.getType());
-            }
             modelMap.put("devices", devices);
         }
 
