@@ -98,6 +98,16 @@
         <a href="/device/${deviceId}/colourHex/WARM_WHITE">WARM_WHITE</a><br>
         <a href="/device/${deviceId}/colourHex/SUNRISE">SUNRISE</a><br>
         <a href="/device/${deviceId}/colourHex/COOL_WHITE">COOL_WHITE</a><br>
+        
+
+        <h2>Change colour</h2>
+        Enter a value between 2 and 254:
+        <form method="post">
+            Value: <input type="text" name="value" />
+            <input type="submit" />
+        </form>
+        <font color="red">${errorMessage}</font>
+
         <br>
         <a href="/home">Back to home</a>
 

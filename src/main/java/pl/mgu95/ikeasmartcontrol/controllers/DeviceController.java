@@ -5,10 +5,7 @@ import nl.stijngroenen.tradfri.device.Light;
 import nl.stijngroenen.tradfri.util.ColourHex;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @SessionAttributes({"devices", "deviceId"})
@@ -47,6 +44,8 @@ public class DeviceController {
             light.setOn(true);
         }
 
+        modelMap.put("device", device);
+
         return "device";
     }
 
@@ -64,6 +63,8 @@ public class DeviceController {
             Light light = device.toLight();
             light.setOn(false);
         }
+
+        modelMap.put("device", device);
 
         return "device";
     }
@@ -156,6 +157,34 @@ public class DeviceController {
             light.applyUpdates();
         }
 
+        modelMap.put("device", device);
+
         return "device";
     }
+
+    @RequestMapping(value = "/device/{id}", method = RequestMethod.POST)
+    public String changeBrightness(@PathVariable int id, @RequestParam int value, ModelMap modelMap) {
+
+        Device[] devices = (Device[]) modelMap.get("devices");
+        for (Device dev : devices) {
+            if (dev.getInstanceId() == id) {
+                device = dev;
+            }
+        }
+
+        if (value > 254 || value < 2) {
+            modelMap.put("errorMessage", "Invalid value!");
+            return "device";
+        } else {
+            if(device.isLight()){
+                Light light = device.toLight();
+                light.setBrightness(value); // 2 <> 254
+            }
+        }
+
+        modelMap.put("device", device);
+
+        return "device";
+    }
+
 }
