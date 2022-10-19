@@ -1,7 +1,6 @@
 package pl.mgu95.ikeasmartcontrol.controllers;
 
 import nl.stijngroenen.tradfri.device.Device;
-import nl.stijngroenen.tradfri.device.DeviceInfo;
 import nl.stijngroenen.tradfri.device.Gateway;
 import nl.stijngroenen.tradfri.util.Credentials;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,10 @@ public class HomeController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap) {
+
+//        if (modelMap.getAttribute("ip") == null) {
+//            return "login";
+//        }
 
         Device[] devices;
 

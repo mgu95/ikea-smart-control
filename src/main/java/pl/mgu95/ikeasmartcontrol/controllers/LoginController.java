@@ -22,17 +22,27 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String showHomePage(ModelMap modelMap, @RequestParam String ip, @RequestParam String identity, @RequestParam String key) {
-        boolean isValidCredentials = loginService.validateCredentials(ip, identity, key);
+    public String showHomePage(ModelMap modelMap, @RequestParam String ip, @RequestParam(required = false) String autoIP,
+                               @RequestParam String identity, @RequestParam String key) {
 
-        if (!isValidCredentials) {
-            modelMap.put("errorMessage", "Invalid Credentials");
-            return "login";
+        if (autoIP == null) {
+            if (!loginService.manualLogin(ip, identity, key)) {
+                modelMap.put("errorMessage", "Invalid Credentials");
+                return "login";
+            }
+            modelMap.put("ip", ip);
+            modelMap.put("identity", identity);
+            modelMap.put("key", key);
+        } else {
+            String foundIp = loginService.autoLogin(identity, key);
+            if (foundIp == null) {
+                modelMap.put("errorMessage", "Invalid Credentials");
+                return "login";
+            }
+            modelMap.put("ip", foundIp);
+            modelMap.put("identity", identity);
+            modelMap.put("key", key);
         }
-
-        modelMap.put("ip", ip);
-        modelMap.put("identity", identity);
-        modelMap.put("key", key);
 
         return "credentialsConfirmation";
     }

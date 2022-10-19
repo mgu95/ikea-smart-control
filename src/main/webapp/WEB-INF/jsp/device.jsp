@@ -100,7 +100,7 @@
         <a href="/device/${deviceId}/colourHex/COOL_WHITE">COOL_WHITE</a><br>
         
 
-        <h2>Change colour</h2>
+        <h2>Change Brightness</h2>
         Enter a value between 2 and 254:
         <form method="post">
             Value: <input type="text" name="value" />
