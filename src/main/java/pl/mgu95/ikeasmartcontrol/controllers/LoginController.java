@@ -44,7 +44,7 @@ public class LoginController {
             modelMap.put("key", key);
         }
 
-        return "credentialsConfirmation";
+        return "redirect:/home";
     }
 
 }
