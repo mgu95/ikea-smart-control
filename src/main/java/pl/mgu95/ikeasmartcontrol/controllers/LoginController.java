@@ -1,5 +1,7 @@
 package pl.mgu95.ikeasmartcontrol.controllers;
 
+import nl.stijngroenen.tradfri.device.Gateway;
+import nl.stijngroenen.tradfri.util.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.mgu95.ikeasmartcontrol.services.LoginService;
 
 @Controller
-@SessionAttributes({"ip", "identity", "key"})
+@SessionAttributes({"ip", "devices"})
 public class LoginController {
 
     @Autowired
@@ -30,21 +32,25 @@ public class LoginController {
                 modelMap.put("errorMessage", "Invalid Credentials");
                 return "login";
             }
+            Gateway gateway = new Gateway(ip);
+            Credentials credentials = new Credentials(identity, key);
+            gateway.connect(credentials);
+            modelMap.put("devices", gateway.getDevices());
             modelMap.put("ip", ip);
-            modelMap.put("identity", identity);
-            modelMap.put("key", key);
         } else {
             String foundIp = loginService.autoLogin(identity, key);
             if (foundIp == null) {
                 modelMap.put("errorMessage", "Invalid Credentials");
                 return "login";
             }
+            Gateway gateway = new Gateway(ip);
+            Credentials credentials = new Credentials(identity, key);
+            gateway.connect(credentials);
+            modelMap.put("devices", gateway.getDevices());
             modelMap.put("ip", foundIp);
-            modelMap.put("identity", identity);
-            modelMap.put("key", key);
         }
 
-        return "credentialsConfirmation";
+        return "redirect:/home";
     }
 
 }

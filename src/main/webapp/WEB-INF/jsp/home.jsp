@@ -14,21 +14,25 @@
             }
         </style>
     </head>
+
+        <h1>${ip}
         
-        <h1>Podłączone urządzenia:</h1>
+        <h1>Lights</h1>
 
         <table style="width:100%">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Manage</th>
+                <th>POWER</th>
+                <th>HEX</th>
+                <th>BRIGHTNESS</th>
+                <th>LINK</th>
             </tr>
-            <c:forEach items="${devices}" var="device">
+            <c:forEach items="${lights}" var="light">
                 <tr>
-                    <td>${device.getInstanceId()}</td>
-                    <td>${device.getName()}</td>
-                    <td>${device.getType()}</td>
+                    <td>${light.getDeviceId()}</td>
+                    <td>${light.isPower()}</td>
+                    <td>${light.getColourHex()}</td>
+                    <td>${light.getBrightness()}</td>
                     <td><a href="/device/${device.getInstanceId()}">manage</a></td>
                 </tr>
             </c:forEach>

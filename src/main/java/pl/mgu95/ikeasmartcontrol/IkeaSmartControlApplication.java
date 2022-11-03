@@ -5,9 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import pl.mgu95.ikeasmartcontrol.data.model.Client;
-import pl.mgu95.ikeasmartcontrol.data.repositories.UserRepository;
-
 import java.util.Arrays;
 
 @SpringBootApplication
