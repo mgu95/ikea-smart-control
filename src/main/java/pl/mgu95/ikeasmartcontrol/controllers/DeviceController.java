@@ -1,8 +1,6 @@
 package pl.mgu95.ikeasmartcontrol.controllers;
 
 import nl.stijngroenen.tradfri.device.Device;
-import nl.stijngroenen.tradfri.device.Light;
-import nl.stijngroenen.tradfri.util.ColourHex;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;

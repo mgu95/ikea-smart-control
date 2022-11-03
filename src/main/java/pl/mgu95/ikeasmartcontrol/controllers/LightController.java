@@ -18,7 +18,6 @@ public class LightController {
     public String updateBrightness(@PathVariable int id, @PathVariable int value, ModelMap modelMap) {
 
         int brightness = value * 254 / 100;
-        System.out.println("brightness = " + brightness);
         if (brightness > 254 || brightness < 2) {
             return "errors/406";
         } else {
