@@ -18,8 +18,6 @@ import java.util.List;
 @SessionAttributes({"ip", "devices"})
 public class HomeController {
 
-    private Gateway gateway;
-
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap) {
 
@@ -27,23 +25,18 @@ public class HomeController {
             return "redirect:/login";
         }
 
-        gateway = new Gateway((String) modelMap.get("ip"));
-        Credentials credentials = new Credentials((String) modelMap.get("identity"), (String) modelMap.get("key"));
-        gateway.connect(credentials);
-
-        modelMap.put("lights", getLights());
-        modelMap.put("plugs", getPlugs());
+        Device[] devices = (Device[]) modelMap.get("devices");
+        modelMap.put("lights", getLights(devices));
+        modelMap.put("plugs", getPlugs(devices));
         modelMap.put("scenes", getScenes());
         modelMap.put("behaviors", getBehaviors());
-        modelMap.put("devices", gateway.getDevices());
 
         return "home";
     }
 
-    private LightDTO[] getLights() {
+    private LightDTO[] getLights(Device[] devices) {
         List<LightDTO> lightDTOList = new ArrayList<>();
 
-        Device[] devices = gateway.getDevices();
         for (Device device : devices) {
             if (device.isLight()) {
                 lightDTOList.add(new LightDTO(device.toLight()));
@@ -55,10 +48,9 @@ public class HomeController {
         return arrayToReturn;
     }
 
-    private PlugDTO[] getPlugs() {
+    private PlugDTO[] getPlugs(Device[] devices) {
         List<PlugDTO> plugDTOList = new ArrayList<>();
 
-        Device[] devices = gateway.getDevices();
         for (Device device : devices) {
             if (device.isPlug()) {
                 plugDTOList.add(new PlugDTO(device.toPlug()));
